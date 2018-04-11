@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ClrAnalyzer.Core.Compiler
 {
     public class CorJitFlags
     {
-        public enum CorJitFlag : uint
+        [Flags]
+        public enum CorJitFlag : UInt32
         {
             CORJIT_FLAG_CALL_GETJITFLAGS = 0xffffffff, // Indicates that the JIT should retrieve flags in the form of a
                                                        // pointer to a CORJIT_FLAGS value via ICorJitInfo::getJitFlags().
@@ -27,18 +26,17 @@ namespace ClrAnalyzer.Core.Compiler
         CORJIT_FLAG_USE_CMOV                = 11, // Generated code may use cmov instruction
         CORJIT_FLAG_USE_SSE2                = 12, // Generated code may use SSE-2 instructions
 
-#else // !defined(_TARGET_X86_)
-
+#elif (_TARGET_X86_)
             CORJIT_FLAG_UNUSED1 = 8,
             CORJIT_FLAG_UNUSED2 = 9,
             CORJIT_FLAG_UNUSED3 = 10,
             CORJIT_FLAG_UNUSED4 = 11,
             CORJIT_FLAG_UNUSED5 = 12,
 
-#endif // !defined(_TARGET_X86_)
-
+#else
             CORJIT_FLAG_UNUSED6 = 13,
-
+#endif
+        
 #if (_TARGET_X86_ || _TARGET_AMD64_) //_TARGET_AMD64_ not implemented
 
         CORJIT_FLAG_USE_AVX                 = 14,
@@ -167,73 +165,24 @@ namespace ClrAnalyzer.Core.Compiler
 #endif // !defined(_TARGET_ARM64_) &&!defined(_TARGET_X86_) && !defined(_TARGET_AMD64_)
         };
 
-        //TODO: implement
-        #region not implemented class functions
-        /*
-        CORJIT_FLAGS()
-            : corJitFlags(0)
+        private CorJitFlag _corJitFlags;
+
+        public CorJitFlags()
         {
-            // empty
+            _corJitFlags = 0;
         }
 
-        // Convenience constructor to set exactly one flag.
-        CORJIT_FLAGS(CorJitFlags flag)
-            : corJitFlags(0)
+        public CorJitFlags(CorJitFlag corJitFlags)
         {
-            Set(flag);
+            Set(corJitFlags);
         }
 
-        CORJIT_FLAGS(const CORJIT_FLAGS& other)
-    {
-        corJitFlags = other.corJitFlags;
-    }
-
-    void Reset()
-    {
-        corJitFlags = 0;
-    }
-
-    void Set(CorJitFlags flag)
-    {
-        corJitFlags |= 1ULL << (unsigned __int64)flag;
-    }
-
-    void Clear(CorJitFlags flag)
-    {
-        corJitFlags &= ~(1ULL << (unsigned __int64)flag);
-    }
-
-    bool IsSet(CorJitFlags flag) const
-    {
-        return (corJitFlags & (1ULL << (unsigned __int64) flag)) != 0;
-    }
-
-void Add(const CORJIT_FLAGS& other)
-{
-    corJitFlags |= other.corJitFlags;
-}
-
-void Remove(const CORJIT_FLAGS& other)
-{
-    corJitFlags &= ~other.corJitFlags;
-}
-
-bool IsEmpty() const
-    {
-        return corJitFlags == 0;
-    }
-
-    // DO NOT USE THIS FUNCTION! (except in very restricted special cases)
-    unsigned __int64 GetFlagsRaw()
-{
-    return corJitFlags;
-}
-
-private:
-
-    unsigned __int64 corJitFlags;
-};
-*/
-        #endregion
+        public void Reset() => _corJitFlags = 0;
+        public void Set(CorJitFlag flag) => _corJitFlags |= (CorJitFlag)((UInt32) 1 << (Int32)flag);
+        public void Clear(CorJitFlag flag) => _corJitFlags &= ~(CorJitFlag)((UInt32)1 << (Int32)flag);
+        public void Add(CorJitFlag flag) => _corJitFlags |= flag;
+        public void Remove(CorJitFlag flag) => _corJitFlags &= ~flag;
+        public bool IsSet(CorJitFlag flag) => _corJitFlags.HasFlag(flag);
+        public bool IsEmpty() => _corJitFlags == 0;
     }
 }

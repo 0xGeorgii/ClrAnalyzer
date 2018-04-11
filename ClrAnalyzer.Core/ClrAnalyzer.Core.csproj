@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
@@ -11,20 +11,26 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>DEBUG;TRACE;NETCOREAPP2_0;NETCOREAPP2_0</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETSTANDARD2_0;_TARGET_X86_</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;NETCOREAPP2_0;_TARGET_X64_</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;_TARGET_X64_</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;_TARGET_X64_</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;_TARGET_X86_</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.1.0-preview1-26023-01" />
+  </ItemGroup>
 
 </Project>
