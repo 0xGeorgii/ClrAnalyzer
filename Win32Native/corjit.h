@@ -235,12 +235,12 @@ void DumpMethodInfo(ICorJitInfo* comp, struct CORINFO_METHOD_INFO* info, unsigne
 
     std::cout << "jit flags: " << std::hex << corJitFlags.GetFlagsRaw() << std::endl;
     std::cout << "native size of code: " << info->ILCodeSize << std::endl;
-	auto buff = new char[info->ILCodeSize];
-	std::memcpy(buff, info->ILCode, info->ILCodeSize);
+    auto buff = new char[info->ILCodeSize];
+    std::memcpy(buff, info->ILCode, info->ILCodeSize);
     auto code = new std::string(buff);
     std::cout << "IL code: " << code << std::endl;
     delete code;
-	delete[] buff;
+    delete[] buff;
     auto f = comp->getMethodAttribs(info->ftn);
     std::cout << "method attribs: " << std::hex << f << std::endl;
 }
