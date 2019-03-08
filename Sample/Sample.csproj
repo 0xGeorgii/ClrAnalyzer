@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net4.6.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net4.6.1</TargetFrameworks>
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClrAnalyzer.Core\ClrAnalyzer.Core.csproj" />
+    <ProjectReference Include="..\Win32Native\Win32Native.vcxproj" />
   </ItemGroup>
 
 </Project>

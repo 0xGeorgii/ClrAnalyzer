@@ -1,6 +1,7 @@
 #include "clrtypes.h"
 #include "corinfo.h"
 #include "jitee.h"
+#include "corjitflags.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -217,30 +218,15 @@ public:
 
 #define CompileFunctionSig CorJitResult(*compileMethod)(void*, struct CORINFO_METHOD_INFO*, unsigned flags, BYTE**, ULONG*)
 
-extern "C" __declspec(dllexport) void __stdcall DumpMethodInfo(ICorJitInfo*, struct CORINFO_METHOD_INFO*, unsigned, BYTE**, ULONG*);
-
-void DumpMethodInfo(ICorJitInfo* comp, struct CORINFO_METHOD_INFO* info, unsigned flags, BYTE** nativeEntry, ULONG* nativeSizeOfCode)
+extern "C" __declspec(dllexport) void __stdcall DumpMethodInfo(ICorJitInfo* comp, struct CORINFO_METHOD_INFO* info, unsigned flags, BYTE** nativeEntry, ULONG* nativeSizeOfCode)
 {
-	if (flags != CORJIT_FLAGS::CORJIT_FLAG_CALL_GETJITFLAGS) return;
-	CORJIT_FLAGS corJitFlags;
-	try
-	{
-		//TODO: FIXME
-		//comp->getJitFlags(&corJitFlags, sizeof(corJitFlags));
-	}
-	catch (const std::exception& ex)
-	{
-		std::cout << ex.what() << std::endl;
-	}
-
-    std::cout << "jit flags: " << std::hex << corJitFlags.GetFlagsRaw() << std::endl;
     std::cout << "native size of code: " << info->ILCodeSize << std::endl;
-	auto buff = new char[info->ILCodeSize];
-	std::memcpy(buff, info->ILCode, info->ILCodeSize);
+    auto buff = new char[info->ILCodeSize];
+    std::memcpy(buff, info->ILCode, info->ILCodeSize);
     auto code = new std::string(buff);
     std::cout << "IL code: " << code << std::endl;
     delete code;
-	delete[] buff;
+    delete[] buff;
     auto f = comp->getMethodAttribs(info->ftn);
     std::cout << "method attribs: " << std::hex << f << std::endl;
 }

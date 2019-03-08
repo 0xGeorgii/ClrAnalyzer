@@ -83,7 +83,7 @@ namespace ClrAnalyzer.Core.Dumps
 
         public void Release() => hook.RemoveHook();
         public static unsafe void NativeDump(IntPtr corJitInfoPtr, CorInfo* methodInfo,
-            CorJitFlag flags, IntPtr nativeEntry, IntPtr nativeSizeOfCode) => CorJitCompiler.DumpMethodInfo(corJitInfoPtr, methodInfo, flags, nativeEntry, nativeSizeOfCode);
+            CorJitFlag flags, IntPtr nativeEntry, IntPtr nativeSizeOfCode) =>   CorJitCompiler.DumpMethodInfo(corJitInfoPtr, methodInfo, flags, nativeEntry, nativeSizeOfCode);
 
         internal static unsafe CorJitCompiler.CorJitResult CompileMethodDel(IntPtr thisPtr, [In] IntPtr corJitInfoPtr, [In] CorInfo* methodInfo,
             CorJitFlag flags, [Out] IntPtr nativeEntry, [Out] IntPtr nativeSizeOfCode)
