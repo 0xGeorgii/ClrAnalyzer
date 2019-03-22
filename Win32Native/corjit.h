@@ -227,6 +227,95 @@ extern "C" __declspec(dllexport) void __stdcall DumpMethodInfo(ICorJitInfo* comp
     std::cout << "IL code: " << code << std::endl;
     delete code;
     delete[] buff;
-    auto f = comp->getMethodAttribs(info->ftn);
-    std::cout << "method attribs: " << std::hex << f << std::endl;
+    auto attribs = comp->getMethodAttribs(info->ftn);
+    std::cout << "method attribs: " << std::hex << attribs << std::endl;
+
+    if (attribs & CorInfoFlag::CORINFO_FLG_PROTECTED)
+    {
+        std::cout << "\t" << "CORINFO_FLG_PROTECTED" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_STATIC)
+    {
+        std::cout << "\t" << "CORINFO_FLG_STATIC" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_FINAL)
+    {
+        std::cout << "\t" << "CORINFO_FLG_FINAL" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_SYNCH)
+    {
+        std::cout << "\t" << "CORINFO_FLG_SYNCH" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_VIRTUAL)
+    {
+        std::cout << "\t" << "CORINFO_FLG_VIRTUAL" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_NATIVE)
+    {
+        std::cout << "\t" << "CORINFO_FLG_NATIVE" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_INTRINSIC_TYPE)
+    {
+        std::cout << "\t" << "CORINFO_FLG_INTRINSIC_TYPE: This type is marked by [Intrinsic]" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_ABSTRACT)
+    {
+        std::cout << "\t" << "CORINFO_FLG_ABSTRACT" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_EnC)
+    {
+        std::cout << "\t" << "CORINFO_FLG_EnC: member was added by Edit'n'Continue" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_FORCEINLINE)
+    {
+        std::cout << "\t" << "CORINFO_FLG_FORCEINLINE: The method should be inlined if possible" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_SHAREDINST)
+    {
+        std::cout << "\t" << "CORINFO_FLG_SHAREDINST: the code for this method is shared between different generic instantiations (also set on classes/types)" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_DELEGATE_INVOKE)
+    {
+        std::cout << "\t" << "CORINFO_FLG_DELEGATE_INVOKE Delegate" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_PINVOKE)
+    {
+        std::cout << "\t" << "CORINFO_FLG_PINVOKE: Is a P/Invoke call" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_SECURITYCHECK)
+    {
+        std::cout << "\t" << "CORINFO_FLG_SECURITYCHECK: Is one of the security routines that does a stackwalk (e.g. Assert, Demand)" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_NOGCCHECK)
+    {
+        std::cout << "\t" << "CORINFO_FLG_NOGCCHECK: This method is FCALL that has no GC check.  Don't put alone in loops" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_INTRINSIC)
+    {
+        std::cout << "\t" << "CORINFO_FLG_INTRINSIC: This method MAY have an intrinsic ID" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_CONSTRUCTOR)
+    {
+        std::cout << "\t" << "CORINFO_FLG_CONSTRUCTOR: This method is an instance or type initializer" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_AGGRESSIVE_OPT)
+    {
+        std::cout << "\t" << "CORINFO_FLG_AGGRESSIVE_OPT: The method may contain hot code and should be aggressively optimized if possible" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_NOSECURITYWRAP)
+    {
+        std::cout << "\t" << "CORINFO_FLG_NOSECURITYWRAP: The method requires no security checks" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_DONT_INLINE)
+    {
+        std::cout << "\t" << "CORINFO_FLG_DONT_INLINE: The method should not be inlined" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_DONT_INLINE_CALLER)
+    {
+        std::cout << "\t" << "CORINFO_FLG_DONT_INLINE_CALLER: The method should not be inlined, nor should its callers. It cannot be tail called" << std::endl;
+    }
+    if (attribs & CorInfoFlag::CORINFO_FLG_JIT_INTRINSIC)
+    {
+        std::cout << "\t" << "CORINFO_FLG_JIT_INTRINSIC: Method is a potential jit intrinsic; verify identity by name check" << std::endl;
+    }
 }
