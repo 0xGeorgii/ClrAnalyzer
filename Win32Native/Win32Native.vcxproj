@@ -152,6 +152,7 @@
     <ClInclude Include="corinfo.h" />
     <ClInclude Include="corjit.h" />
     <ClInclude Include="corjitflags.h" />
+    <ClInclude Include="ildump.h" />
     <ClInclude Include="jitee.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

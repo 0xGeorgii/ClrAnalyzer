@@ -2,6 +2,7 @@
 #include "corinfo.h"
 #include "jitee.h"
 #include "corjitflags.h"
+#include "ildump.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -225,10 +226,14 @@ extern "C" __declspec(dllexport) void __stdcall DumpMethodInfo(ICorJitInfo* comp
     std::memcpy(buff, info->ILCode, info->ILCodeSize);
     auto code = new std::string(buff);
     std::cout << "IL code: " << code << std::endl;
+    std::cout << "===" << std::endl;
+    DumpILToConsole(info->ILCode, info->ILCodeSize);
+    std::cout << "===" << std::endl;
     delete code;
     delete[] buff;
     auto attribs = comp->getMethodAttribs(info->ftn);
     std::cout << "method attribs: " << std::hex << attribs << std::endl;
+    std::cout << "===" << std::endl;
 
     if (attribs & CorInfoFlag::CORINFO_FLG_PROTECTED)
     {
@@ -318,4 +323,5 @@ extern "C" __declspec(dllexport) void __stdcall DumpMethodInfo(ICorJitInfo* comp
     {
         std::cout << "\t" << "CORINFO_FLG_JIT_INTRINSIC: Method is a potential jit intrinsic; verify identity by name check" << std::endl;
     }
+    std::cout << "===" << std::endl;
 }

@@ -22,13 +22,14 @@ namespace ClrAnalyzer.Core.Compiler
             public CompileMethodDel CompileMethod;
             public ProcessShutdownWorkDel ProcessShutdownWork;
             public isCacheCleanupRequiredDel isCacheCleanupRequired;
+            public getMethodAttribs getMethodAttribs;
         }
 
         public static ICorJitCompiler GetCorJitCompilerInterface()
         {
             var pJit = GetJit();
             var nativeCompiler = Marshal.PtrToStructure<CorJitCompilerNative>(pJit);
-            return new CorJitCompilerNativeWrapper(pJit, nativeCompiler.CompileMethod, nativeCompiler.ProcessShutdownWork);
+            return new CorJitCompilerNativeWrapper(pJit, nativeCompiler.CompileMethod, nativeCompiler.ProcessShutdownWork, nativeCompiler.getMethodAttribs);
         }
 
         private sealed class CorJitCompilerNativeWrapper : ICorJitCompiler
@@ -36,12 +37,14 @@ namespace ClrAnalyzer.Core.Compiler
             private IntPtr _pThis;
             private CompileMethodDel _compileMethod;
             private ProcessShutdownWorkDel _processShutdownWork;
+            private getMethodAttribs _getMethodAttribs;
 
-            public CorJitCompilerNativeWrapper(IntPtr pThis, CompileMethodDel compileMethodDel, ProcessShutdownWorkDel processShutdownWork)
+            public CorJitCompilerNativeWrapper(IntPtr pThis, CompileMethodDel compileMethodDel, ProcessShutdownWorkDel processShutdownWork, getMethodAttribs getMethodAttribs)
             {
                 _pThis = pThis;
                 _compileMethod = compileMethodDel;
                 _processShutdownWork = processShutdownWork;
+                _getMethodAttribs = getMethodAttribs;
             }
 
             public CorJitResult CompileMethod(IntPtr thisPtr, [In] IntPtr corJitInfo, [In] CorInfo* methodInfo, CorJitFlag flags, [Out] IntPtr nativeEntry, [Out] IntPtr nativeSizeOfCode)
@@ -52,6 +55,11 @@ namespace ClrAnalyzer.Core.Compiler
             public void ProcessShutdownWork(IntPtr thisPtr, [In] IntPtr corStaticInfo)
             {
                 _processShutdownWork(thisPtr, corStaticInfo);
+            }
+
+            public UInt32 getMethodAttribs(IntPtr methodHandle)
+            {
+                return _getMethodAttribs(methodHandle);
             }
         }
 
@@ -76,6 +84,9 @@ namespace ClrAnalyzer.Core.Compiler
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
         public unsafe delegate Byte isCacheCleanupRequiredDel();
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
+        public unsafe delegate UInt32 getMethodAttribs(IntPtr methodHandle);
+
         // These are error codes returned by CompileMethod
         public const Int32 SEVERITY_ERROR = 1;
         public const Int32 FACILITY_NULL = 0;
@@ -95,7 +106,6 @@ namespace ClrAnalyzer.Core.Compiler
             BLENDED_CODE,
             SMALL_CODE,
             FAST_CODE,
-
             COUNT_OPT_CODE
         };
     }
