@@ -1,7 +1,9 @@
 # ClrAnalyzer
 .NET library for hooking and dumping Clr
 
-Article with the descripntion can be found [here](https://github.com/GeorgePlotnikov/georgeplotnikov.github.io/blob/master/articles/just-in-time-hooking.md)
+The article with the descripntion can be found [here](https://github.com/GeorgePlotnikov/georgeplotnikov.github.io/blob/master/articles/just-in-time-hooking.md)
+
+The video with the demo of usage can be found [here](https://www.youtube.com/watch?v=NqHGiBimD7I)
 
 ## Example of output
 
