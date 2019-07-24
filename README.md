@@ -5,6 +5,8 @@ The article with the descripntion can be found [here](https://github.com/GeorgeP
 
 The video with the demo of usage can be found [here](https://www.youtube.com/watch?v=NqHGiBimD7I)
 
+The :ru: video from the DotNet meetup can be found [here](https://youtu.be/39fOc4Jr8lE) with the :uk: [slides](https://speakerdeck.com/dotnetru/gieorghii-plotnikov-just-in-time-hooking)
+
 ## Example of output
 
 ```
